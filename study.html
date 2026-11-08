@@ -1,1 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KTU Buddy | Study Materials</title>
 
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #100b20;
+    color: white;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 25px auto;
+    background: #1c1433;
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px solid #7138d8;
+}
+
+h1 {
+    text-align: center;
+    color: #c5a5ff;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #bbb;
+    margin-bottom: 25px;
+}
+
+.back {
+    display: inline-block;
+    color: #c5a5ff;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 15px 0 8px;
+    color: #d8c7ff;
+}
+
+select {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    background: #100b20;
+    border: 1px solid #6943a8;
+    color: white;
+}
+
+button {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #853cff;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #a46aff;
+}
+
+.materials {
+    margin-top: 30px;
+}
+
+.card {
+    background: #302052;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #6943a8;
+}
+
+.card h3 {
+    color: #c5a5ff;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #ddd;
+    line-height: 1.5;
+}
+
+.card a {
+    display: inline-block;
+    color: white;
+    background: #853cff;
+    padding: 9px 15px;
+    border-radius: 7px;
+    text-decoration: none;
+    margin-top: 12px;
+}
+
+.card a:hover {
+    background: #a46aff;
+}
+
+.info {
+    color: #bbb;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.6;
+}
+
+@media(max-width:600px) {
+    .container {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="dashboard.html" class="back">← Back to Dashboard</a>
+
+<h1>📚 Study Materials</h1>
+<p class="subtitle">KTU Buddy - Your Learning Library</p>
+
+<label>Choose Scheme</label>
+<select id="scheme">
+<option value="2024">KTU 2024 Scheme</option>
+<option value="2019">KTU 2019 Scheme</option>
+</select>
+
+<label>Choose Branch</label>
+<select id="branch">
+<option value="CSE">Computer Science Engineering</option>
+<option value="AIML">Artificial Intelligence & Machine Learning</option>
+<option value="CSBS">Computer Science and Business Systems</option>
+<option value="ECE">Electronics and Communication</option>
+<option value="EEE">Electrical and Electronics</option>
+<option value="ME">Mechanical Engineering</option>
+<option value="CE">Civil Engineering</option>
+<option value="IT">Information Technology</option>
+<option value="Other">Other</option>
+</select>
+
+<label>Choose Semester</label>
+<select id="semester">
+<option value="S1">Semester 1</option>
+<option value="S2">Semester 2</option>
+<option value="S3">Semester 3</option>
+<option value="S4">Semester 4</option>
+<option value="S5">Semester 5</option>
+<option value="S6">Semester 6</option>
+<option value="S7">Semester 7</option>
+<option value="S8">Semester 8</option>
+</select>
+
+<button onclick="showMaterials()">Find Study Materials</button>
+
+<div class="materials" id="materials">
+
+<div class="card">
+<h3>📖 Welcome to KTU Buddy!</h3>
+<p>Select your scheme, branch and semester to find learning resources.</p>
+</div>
+
+</div>
+
+<p class="info">
+Study materials are organised by scheme, branch and semester.
+Official syllabus and course materials should be verified with KTU.
+</p>
+
+</div>
+
+<script>
+
+function showMaterials() {
+
+    const scheme = document.getElementById("scheme").value;
+    const branch = document.getElementById("branch").value;
+    const semester = document.getElementById("semester").value;
+
+    const container = document.getElementById("materials");
+
+    container.innerHTML = `
+        <div class="card">
+            <h3>📚 Selected Study Details</h3>
+            <p><b>Scheme:</b> ${scheme}</p>
+            <p><b>Branch:</b> ${branch}</p>
+            <p><b>Semester:</b> ${semester}</p>
+        </div>
+
+        <div class="card">
+            <h3>📘 Subject Notes</h3>
+            <p>Study notes will be added here.</p>
+            <a href="#" onclick="comingSoon(event)">View Notes</a>
+        </div>
+
+        <div class="card">
+            <h3>📝 Previous Question Papers</h3>
+            <p>Previous year question papers will be available here.</p>
+            <a href="#" onclick="comingSoon(event)">View Papers</a>
+        </div>
+
+        <div class="card">
+            <h3>⭐ Important Questions</h3>
+            <p>Important exam questions will be added here.</p>
+            <a href="#" onclick="comingSoon(event)">View Questions</a>
+        </div>
+
+        <div class="card">
+            <h3>📋 Official Syllabus</h3>
+            <p>Check the official KTU syllabus for your selected scheme.</p>
+            <a href="https://ktu.edu.in/" target="_blank">KTU Website</a>
+        </div>
+    `;
+}
+
+function comingSoon(event) {
+    event.preventDefault();
+    alert("Study materials will be uploaded soon!");
+}
+
+</script>
+
+</body>
+</html>
