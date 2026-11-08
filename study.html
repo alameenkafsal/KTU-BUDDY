@@ -1,254 +1,151 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KTU-BUDDY | Study Materials</title>
+<title>Study Materials | KTU-BUDDY</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
-}
-
+*{box-sizing:border-box}
 body{
-    background:#0b0b1d;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#0b1020;
     color:white;
+}
+header{
+    background:#171f38;
+    padding:22px;
+    text-align:center;
+}
+header h1{color:#8c9eff;margin:0}
+.container{
+    max-width:850px;
+    margin:35px auto;
     padding:25px;
 }
-
-.container{
-    max-width:900px;
-    margin:auto;
-}
-
-h1{
-    text-align:center;
-    color:#b58aff;
-    margin-bottom:25px;
-}
-
 .card{
-    background:#17152c;
+    background:#171f38;
     padding:25px;
     border-radius:15px;
-    margin-bottom:25px;
-    border:1px solid #343052;
+    margin-bottom:20px;
 }
-
-label{
-    display:block;
-    margin-top:15px;
-    margin-bottom:7px;
-    color:#b58aff;
-}
-
+label{display:block;margin-top:15px}
 select,input{
     width:100%;
     padding:12px;
+    margin-top:7px;
     border-radius:8px;
     border:none;
-    margin-bottom:10px;
 }
-
 button{
-    width:100%;
-    padding:13px;
-    background:linear-gradient(90deg,#773bdb,#3478ed);
-    color:white;
-    border:none;
-    border-radius:8px;
-    margin-top:15px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-button:hover{
-    opacity:.85;
-}
-
-#result{
     margin-top:20px;
-    line-height:2;
+    padding:13px 20px;
+    background:#7655e8;
+    color:white;
+    border:0;
+    border-radius:8px;
+    cursor:pointer;
 }
-
-.note{
-    background:#252044;
-    padding:15px;
+.pdf{
+    background:#202b4a;
+    padding:18px;
     border-radius:10px;
     margin-top:15px;
 }
-
-a{
-    color:#60a5fa;
-}
-
-.back{
-    text-align:center;
-    margin-top:25px;
-}
-
-.back a{
-    color:#b58aff;
-    text-decoration:none;
-}
+a{color:#aebaff}
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
+<header>
+<h1>📚 KTU-BUDDY</h1>
+<p>Study Materials Portal</p>
+</header>
+
 <div class="container">
 
-<h1>📚 KTU Study Materials</h1>
-
 <div class="card">
-
-<h2>Select Your Academic Details</h2>
+<h2>Find Study Materials</h2>
 
 <label>Scheme</label>
 <select id="scheme">
-<option value="2024">2024 Scheme</option>
-<option value="2019">2019 Scheme</option>
+<option>2024 Scheme</option>
+<option>2019 Scheme</option>
 </select>
 
 <label>Branch</label>
 <select id="branch">
+<option>CSBS</option>
 <option>CSE</option>
 <option>AIML</option>
-<option>CSBS</option>
 <option>ECE</option>
 <option>EEE</option>
 <option>ME</option>
 <option>CE</option>
 <option>IT</option>
-<option>Other</option>
 </select>
 
 <label>Semester</label>
 <select id="semester">
-<option>S1</option>
-<option>S2</option>
-<option>S3</option>
-<option>S4</option>
-<option>S5</option>
-<option>S6</option>
-<option>S7</option>
-<option>S8</option>
+<option>S1</option><option>S2</option>
+<option>S3</option><option>S4</option>
+<option selected>S5</option><option>S6</option>
+<option>S7</option><option>S8</option>
 </select>
 
-<label>Subject Name</label>
-<input type="text" id="subject" placeholder="Enter subject name">
+<label>Subject</label>
+<select id="subject">
+<option>Computer Networks</option>
+<option>Artificial Intelligence</option>
+<option>Design and Analysis of Algorithms</option>
+<option>Computational Statistics</option>
+<option>Operations Research</option>
+</select>
 
 <label>Module</label>
 <select id="module">
-<option>Module 1</option>
-<option>Module 2</option>
-<option>Module 3</option>
-<option>Module 4</option>
-<option>Module 5</option>
+<option value="1">Module 1</option>
+<option value="2">Module 2</option>
+<option value="3">Module 3</option>
+<option value="4">Module 4</option>
 </select>
 
-<button onclick="showMaterials()">Find Study Materials</button>
+<button onclick="findMaterials()">Find Materials</button>
+</div>
 
-<div id="result"></div>
-
+<div class="card hidden" id="results">
+<h2>Available PDF Notes</h2>
+<div id="pdfList"></div>
 </div>
 
 <div class="card">
-
-<h2>📤 Add PDF Notes</h2>
-
-<p style="color:#ccc;margin-top:10px">
-Select a PDF file to open or download it on this device.
-</p>
-
-<label>Upload PDF</label>
-<input type="file" id="pdfFile" accept="application/pdf">
-
-<button onclick="uploadPDF()">Add PDF</button>
-
-<div id="pdfResult"></div>
-
-</div>
-
-<div class="card">
-<h3>Official KTU Website</h3>
-<p style="margin-top:10px;color:#ccc">
-Check official syllabus and academic updates.
-</p>
-<a href="https://ktu.edu.in/" target="_blank">
-Visit KTU Official Website →
-</a>
-</div>
-
-<div class="back">
-<a href="dashboard.html">⬅ Back to Dashboard</a>
+<a href="dashboard.html">← Back to Dashboard</a>
 </div>
 
 </div>
 
 <script>
+function findMaterials(){
 
-function showMaterials(){
+const subject=document.getElementById("subject").value;
+const module=document.getElementById("module").value;
+const scheme=document.getElementById("scheme").value;
+const branch=document.getElementById("branch").value;
+const semester=document.getElementById("semester").value;
 
-    const scheme=document.getElementById("scheme").value;
-    const branch=document.getElementById("branch").value;
-    const semester=document.getElementById("semester").value;
-    const subject=document.getElementById("subject").value.trim();
-    const module=document.getElementById("module").value;
+let html="";
 
-    if(!subject){
-        alert("Please enter subject name!");
-        return;
-    }
+if(subject==="Computer Networks" &&
+   scheme==="2024 Scheme" &&
+   branch==="CSBS" &&
+   semester==="S5"){
 
-    document.getElementById("result").innerHTML=`
-        <div class="note">
-            <h3>📖 Selected Study Material</h3>
-            <p>Scheme: ${scheme}</p>
-            <p>Branch: ${branch}</p>
-            <p>Semester: ${semester}</p>
-            <p>Subject: ${subject}</p>
-            <p>Module: ${module}</p>
-            <br>
-            <p style="color:#facc15">
-            No verified PDF notes uploaded yet.
-            </p>
-            <p>PDF notes can be added in the section below.</p>
-        </div>
-    `;
-}
-
-function uploadPDF(){
-
-    const file=document.getElementById("pdfFile").files[0];
-
-    if(!file){
-        alert("Please select a PDF file!");
-        return;
-    }
-
-    if(file.type!=="application/pdf"){
-        alert("Only PDF files are allowed!");
-        return;
-    }
-
-    const url=URL.createObjectURL(file);
-
-    document.getElementById("pdfResult").innerHTML=`
-        <div class="note">
-            <h3>✅ PDF Selected Successfully</h3>
-            <p>${file.name}</p>
-            <a href="${url}" target="_blank">📖 Open PDF</a>
-            <br>
-            <a href="${url}" download="${file.name}">⬇ Download PDF</a>
-        </div>
-    `;
-}
-
-</script>
-
-</body>
-</html>
+    if(module==="1"){
+        html=`
+        <div class="pdf">
+        <h3>Computer Networks - Module 1</h3>
+        <a href="Computer_Networks
