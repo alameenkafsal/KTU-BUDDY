@@ -3,253 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KTU Buddy | Exam Timetable</title>
+<title>KTU Buddy - Exam Timetable</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#0f172a;
+    color:white;
+    padding:25px;
 }
-
-body {
-    font-family: Arial, sans-serif;
-    background: #100b20;
-    color: white;
-    padding: 20px;
+.container{
+    max-width:800px;
+    margin:auto;
 }
-
-.container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 30px;
-    background: #1c1433;
-    border: 1px solid #7138d8;
-    border-radius: 18px;
+h1{text-align:center;color:#38bdf8}
+.card{
+    background:#1e293b;
+    padding:25px;
+    margin:20px 0;
+    border-radius:15px;
 }
-
-h1 {
-    color: #c5a5ff;
-    text-align: center;
-    margin-bottom: 10px;
+select,input,button{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border:none;
 }
-
-.subtitle {
-    text-align: center;
-    color: #bbb;
-    margin-bottom: 25px;
+button{
+    background:#2563eb;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
 }
-
-.back {
-    display: inline-block;
-    color: #c5a5ff;
-    text-decoration: none;
-    margin-bottom: 20px;
+.status{
+    padding:15px;
+    border-radius:10px;
+    background:#334155;
+    margin-top:15px;
+    line-height:1.8;
 }
-
-label {
-    display: block;
-    margin: 15px 0 8px;
-    color: #d8c7ff;
-}
-
-select, input {
-    width: 100%;
-    padding: 13px;
-    border-radius: 8px;
-    background: #100b20;
-    color: white;
-    border: 1px solid #6943a8;
-}
-
-button {
-    padding: 13px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #853cff;
-    color: white;
-    cursor: pointer;
-    margin-top: 20px;
-    font-weight: bold;
-}
-
-button:hover {
-    background: #a46aff;
-}
-
-.card {
-    background: #302052;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #6943a8;
-    margin-top: 20px;
-}
-
-.card h3 {
-    color: #c5a5ff;
-    margin-bottom: 12px;
-}
-
-.card p {
-    color: #ddd;
-    line-height: 1.7;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-th, td {
-    padding: 12px;
-    border: 1px solid #6943a8;
-    text-align: left;
-}
-
-th {
-    background: #49316f;
-    color: #e0caff;
-}
-
-td {
-    background: #241a3c;
-}
-
-.info {
-    text-align: center;
-    color: #aaa;
-    margin-top: 25px;
-    line-height: 1.6;
-}
-
-@media(max-width:600px) {
-    .container {
-        padding: 18px;
-    }
-
-    table {
-        font-size: 12px;
-    }
-
-    th, td {
-        padding: 8px;
-    }
-}
+.published{color:#4ade80}
+.pending{color:#facc15}
+a{color:#38bdf8}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<a href="dashboard.html" class="back">← Back to Dashboard</a>
-
-<h1>📅 Exam Timetable</h1>
-
-<p class="subtitle">
-KTU Buddy - Examination Schedule
-</p>
-
-<label>Choose Scheme</label>
-<select id="scheme">
-<option value="2024">2024 Scheme</option>
-<option value="2019">2019 Scheme</option>
-</select>
-
-<label>Choose Branch</label>
-<select id="branch">
-<option value="CSE">Computer Science Engineering</option>
-<option value="AIML">Artificial Intelligence & Machine Learning</option>
-<option value="CSBS">Computer Science and Business Systems</option>
-<option value="ECE">Electronics and Communication</option>
-<option value="EEE">Electrical and Electronics</option>
-<option value="ME">Mechanical Engineering</option>
-<option value="CE">Civil Engineering</option>
-<option value="IT">Information Technology</option>
-</select>
-
-<label>Choose Semester</label>
-<select id="semester">
-<option value="S1">Semester 1</option>
-<option value="S2">Semester 2</option>
-<option value="S3">Semester 3</option>
-<option value="S4">Semester 4</option>
-<option value="S5">Semester 5</option>
-<option value="S6">Semester 6</option>
-<option value="S7">Semester 7</option>
-<option value="S8">Semester 8</option>
-</select>
-
-<button onclick="showTimetable()">View Timetable</button>
-
-<div id="results">
+<h1>📅 KTU Exam Timetable</h1>
 
 <div class="card">
-<h3>📌 Examination Schedule</h3>
-<p>Select your scheme, branch and semester to view timetable information.</p>
+<h2>Check Timetable Status</h2>
+
+<label>Scheme</label>
+<select id="scheme">
+<option>2024 Scheme</option>
+<option>2019 Scheme</option>
+</select>
+
+<label>Branch</label>
+<select id="branch">
+<option>CSE</option>
+<option>AIML</option>
+<option>CSBS</option>
+<option>ECE</option>
+<option>EEE</option>
+<option>ME</option>
+<option>CE</option>
+<option>IT</option>
+</select>
+
+<label>Semester</label>
+<select id="semester">
+<option>S1</option><option>S2</option>
+<option>S3</option><option>S4</option>
+<option>S5</option><option>S6</option>
+<option>S7</option><option>S8</option>
+</select>
+
+<button onclick="checkStatus()">Check Status</button>
+
+<div id="result" class="status">
+Select your details to check timetable status.
+</div>
 </div>
 
+<div class="card">
+<h2>📢 Exam Information</h2>
+<p>Timetable Status: <span class="pending">Waiting for verified update</span></p>
+<p>Exam Status: Not verified</p>
+<p>Exam Date: Not announced here</p>
+<p>Last Updated: Not available</p>
 </div>
 
-<p class="info">
-Always verify examination dates and timings using official KTU notifications.
-Do not depend on unofficial timetable information.
+<div class="card">
+<h3>Official KTU Updates</h3>
+<p>For authentic examination notifications and timetable, visit:</p>
+<a href="https://ktu.edu.in/" target="_blank">KTU Official Website</a>
+</div>
+
+<p style="text-align:center">
+<a href="dashboard.html">⬅ Back to Dashboard</a>
 </p>
 
 </div>
 
 <script>
+function checkStatus(){
+    const scheme=document.getElementById("scheme").value;
+    const branch=document.getElementById("branch").value;
+    const semester=document.getElementById("semester").value;
 
-function showTimetable() {
-
-    const scheme = document.getElementById("scheme").value;
-    const branch = document.getElementById("branch").value;
-    const semester = document.getElementById("semester").value;
-
-    document.getElementById("results").innerHTML = `
-
-    <div class="card">
-
-        <h3>📅 Your Selection</h3>
-
-        <p><b>Scheme:</b> ${scheme}</p>
-        <p><b>Branch:</b> ${branch}</p>
-        <p><b>Semester:</b> ${semester}</p>
-
-    </div>
-
-    <div class="card">
-
-        <h3>📝 Timetable Status</h3>
-
-        <p>No verified timetable uploaded yet.</p>
-
-        <p style="color:#ffcc80;margin-top:10px;">
-        Official examination schedule will be added after verification.
-        </p>
-
-    </div>
-
-    <div class="card">
-
-        <h3>🌐 Official KTU Website</h3>
-
-        <p>Visit the official university website for exam notifications.</p>
-
-        <a href="https://ktu.edu.in/" target="_blank"
-        style="display:inline-block;background:#853cff;color:white;
-        padding:10px 15px;border-radius:7px;text-decoration:none;
-        margin-top:12px;">
-        Visit KTU
-        </a>
-
-    </div>
-
+    document.getElementById("result").innerHTML=`
+    <h3>Selected Details</h3>
+    Scheme: ${scheme}<br>
+    Branch: ${branch}<br>
+    Semester: ${semester}<br><br>
+    <span class="pending">⚠ Timetable not yet verified/uploaded.</span>
+    <p>Check the official KTU website for the latest timetable.</p>
     `;
-
 }
-
 </script>
 
 </body>
