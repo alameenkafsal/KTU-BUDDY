@@ -1,1 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KTU Buddy | Important Questions</title>
 
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #100b20;
+    color: white;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #1c1433;
+    border: 1px solid #7138d8;
+    border-radius: 18px;
+}
+
+h1 {
+    color: #c5a5ff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #bbb;
+    margin-bottom: 25px;
+}
+
+.back {
+    display: inline-block;
+    color: #c5a5ff;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 15px 0 8px;
+    color: #d8c7ff;
+}
+
+select {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    background: #100b20;
+    color: white;
+    border: 1px solid #6943a8;
+}
+
+button {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #853cff;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #a46aff;
+}
+
+.card {
+    background: #302052;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #6943a8;
+    margin-top: 20px;
+}
+
+.card h3 {
+    color: #c5a5ff;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: #ddd;
+    line-height: 1.7;
+}
+
+.note {
+    text-align: center;
+    color: #aaa;
+    margin-top: 25px;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="dashboard.html" class="back">← Back to Dashboard</a>
+
+<h1>⭐ Important Questions</h1>
+
+<p class="subtitle">
+KTU Buddy - Exam Preparation
+</p>
+
+<label>Choose Scheme</label>
+<select id="scheme">
+<option value="2024">2024 Scheme</option>
+<option value="2019">2019 Scheme</option>
+</select>
+
+<label>Choose Branch</label>
+<select id="branch">
+<option value="CSE">Computer Science Engineering</option>
+<option value="AIML">Artificial Intelligence & Machine Learning</option>
+<option value="CSBS">Computer Science and Business Systems</option>
+<option value="ECE">Electronics and Communication</option>
+<option value="EEE">Electrical and Electronics</option>
+<option value="ME">Mechanical Engineering</option>
+<option value="CE">Civil Engineering</option>
+<option value="IT">Information Technology</option>
+<option value="Other">Other</option>
+</select>
+
+<label>Choose Semester</label>
+<select id="semester">
+<option value="S1">Semester 1</option>
+<option value="S2">Semester 2</option>
+<option value="S3">Semester 3</option>
+<option value="S4">Semester 4</option>
+<option value="S5">Semester 5</option>
+<option value="S6">Semester 6</option>
+<option value="S7">Semester 7</option>
+<option value="S8">Semester 8</option>
+</select>
+
+<button onclick="showQuestions()">Find Important Questions</button>
+
+<div id="results">
+
+<div class="card">
+<h3>📚 Welcome to KTU Buddy!</h3>
+<p>Select your scheme, branch and semester to find important questions.</p>
+</div>
+
+</div>
+
+<p class="note">
+Important questions are for revision support only.
+They are not guaranteed exam questions. Study the complete syllabus.
+</p>
+
+</div>
+
+<script>
+
+function showQuestions() {
+
+    const scheme = document.getElementById("scheme").value;
+    const branch = document.getElementById("branch").value;
+    const semester = document.getElementById("semester").value;
+
+    document.getElementById("results").innerHTML = `
+
+    <div class="card">
+
+        <h3>📌 Your Selection</h3>
+
+        <p><b>Scheme:</b> ${scheme}</p>
+        <p><b>Branch:</b> ${branch}</p>
+        <p><b>Semester:</b> ${semester}</p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>⭐ Important Questions</h3>
+
+        <p>No verified question list uploaded yet.</p>
+
+        <p style="color:#ffcc80;margin-top:10px;">
+        Subject-wise questions will be added soon.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>📖 Study Preparation Tips</h3>
+
+        <p>1. Study all modules.</p>
+        <p>2. Practise previous question papers.</p>
+        <p>3. Learn important definitions and theorems.</p>
+        <p>4. Practise numerical problems.</p>
+        <p>5. Revise before the examination.</p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>🌐 Official KTU Website</h3>
+
+        <p>Check official syllabus and university updates.</p>
+
+        <a href="https://ktu.edu.in/" target="_blank"
+        style="display:inline-block;background:#853cff;color:white;
+        padding:10px 15px;border-radius:7px;text-decoration:none;
+        margin-top:12px;">
+        Visit KTU
+        </a>
+
+    </div>
+
+    `;
+
+}
+
+</script>
+
+</body>
+</html>
