@@ -1,1 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTU-BUDDY | Dashboard</title>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b0b1d;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #17132e;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h2 {
+            color: #b58aff;
+        }
+
+        button {
+            background: linear-gradient(90deg, #773bdb, #3478ed);
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        main {
+            padding: 35px 6%;
+        }
+
+        .welcome {
+            background: linear-gradient(120deg, #452080, #183b78);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 12px;
+        }
+
+        .profile {
+            background: #17152c;
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 30px;
+            line-height: 2;
+        }
+
+        .profile h2 {
+            color: #b58aff;
+            margin-bottom: 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #17152c;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #343052;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #9b65ff;
+        }
+
+        .card h3 {
+            color: #b58aff;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #ccc;
+        }
+
+        #message {
+            text-align: center;
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>KTU-BUDDY 🎓</h2>
+    <button id="logoutButton">Logout</button>
+</header>
+
+<main>
+
+    <section class="welcome">
+        <h1>Welcome, <span id="studentName">Student</span>! 👋</h1>
+        <p>Your KTU learning journey starts here.</p>
+    </section>
+
+    <section class="profile">
+        <h2>Student Profile</h2>
+
+        <p><b>Register Number:</b> <span id="regNo">Loading...</span></p>
+        <p><b>Email:</b> <span id="email">Loading...</span></p>
+        <p><b>College:</b> <span id="college">Loading...</span></p>
+        <p><b>Branch:</b> <span id="branch">Loading...</span></p>
+        <p><b>Scheme:</b> <span id="scheme">Loading...</span></p>
+        <p><b>Semester:</b> <span id="semester">Loading...</span></p>
+    </section>
+
+    <h2 style="margin-bottom:20px;">Student Resources 📚</h2>
+
+    <section class="grid">
+
+        <div class="card">
+            <h3>📖 Study Materials</h3>
+            <p>Access semester-wise study materials.</p>
+        </div>
+
+        <div class="card">
+            <h3>📝 Question Papers</h3>
+            <p>Previous year KTU question papers.</p>
+        </div>
+
+        <div class="card">
+            <h3>⭐ Important Questions</h3>
+            <p>Prepare important exam questions.</p>
+        </div>
+
+        <div class="card">
+            <h3>📅 Exam Timetable</h3>
+            <p>Check your examination schedule.</p>
+        </div>
+
+        <div class="card">
+            <h3>📊 SGPA Calculator</h3>
+            <p>Calculate your semester GPA.</p>
+        </div>
+
+        <div class="card">
+            <h3>📈 CGPA Calculator</h3>
+            <p>Calculate your cumulative GPA.</p>
+        </div>
+
+    </section>
+
+    <p id="message"></p>
+
+</main>
+
+<script type="module">
+
+import {
+    auth,
+    db,
+    doc,
+    getDoc,
+    signOut
+} from "./firebase.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+
+const message = document.getElementById("message");
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const profileRef = doc(db, "students", user.uid);
+        const profileSnap = await getDoc(profileRef);
+
+        if (profileSnap.exists()) {
+
+            const data = profileSnap.data();
+
+            document.getElementById("studentName").textContent = data.name;
+            document.getElementById("regNo").textContent = data.registerNumber;
+            document.getElementById("email").textContent = data.email;
+            document.getElementById("college").textContent = data.college;
+            document.getElementById("branch").textContent = data.branch;
+            document.getElementById("scheme").textContent = data.scheme;
+            document.getElementById("semester").textContent = data.semester;
+
+        } else {
+            message.textContent = "Student profile not found.";
+        }
+
+    } catch (error) {
+        console.error(error);
+        message.textContent = "Unable to load student profile.";
+    }
+
+});
+
+document.getElementById("logoutButton").addEventListener("click", async () => {
+
+    await signOut(auth);
+    window.location.href = "login.html";
+
+});
+
+</script>
+
+</body>
+</html>
