@@ -1,1 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KTU Buddy | SGPA Calculator</title>
 
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #100b20;
+    color: white;
+    padding: 25px;
+}
+
+.container {
+    max-width: 750px;
+    margin: 30px auto;
+    background: #1c1433;
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px solid #7138d8;
+}
+
+h1 {
+    text-align: center;
+    color: #c5a5ff;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #bbb;
+    margin-bottom: 25px;
+}
+
+.subject {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #6943a8;
+    background: #100b20;
+    color: white;
+}
+
+button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #853cff;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px 3px;
+}
+
+button:hover {
+    background: #a46aff;
+}
+
+.remove {
+    background: #d93655;
+}
+
+.result {
+    text-align: center;
+    margin-top: 25px;
+    padding: 25px;
+    background: #302052;
+    border-radius: 12px;
+    display: none;
+}
+
+.result h2 {
+    color: #c5a5ff;
+    font-size: 32px;
+    margin-top: 10px;
+}
+
+.note {
+    color: #bbb;
+    font-size: 13px;
+    margin-top: 20px;
+    line-height: 1.6;
+}
+
+.back {
+    display: inline-block;
+    color: #c5a5ff;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+@media(max-width:600px) {
+    .subject {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="dashboard.html" class="back">← Back to Dashboard</a>
+
+<h1>🎓 SGPA Calculator</h1>
+<p class="subtitle">KTU Buddy - Calculate Your Semester SGPA</p>
+
+<div id="subjects">
+
+<div class="subject">
+<input type="text" placeholder="Subject name">
+<input type="number" class="credit" placeholder="Credit" min="0.5" step="0.5">
+<select class="grade">
+<option value="">Grade</option>
+<option value="10">S - 10</option>
+<option value="9">A+ - 9</option>
+<option value="8.5">A - 8.5</option>
+<option value="8">B+ - 8</option>
+<option value="7">B - 7</option>
+<option value="6">C - 6</option>
+<option value="5">P - 5</option>
+<option value="0">F - 0</option>
+</select>
+<button class="remove" onclick="removeSubject(this)">X</button>
+</div>
+
+</div>
+
+<button onclick="addSubject()">+ Add Subject</button>
+<button onclick="calculateSGPA()">Calculate SGPA</button>
+<button onclick="resetCalculator()">Reset</button>
+
+<div class="result" id="result">
+<p>Your Semester SGPA</p>
+<h2 id="sgpaValue">0.00</h2>
+<p id="details"></p>
+</div>
+
+<p class="note">
+Note: Enter the official credit and grade point for each subject
+according to your KTU scheme. This calculator uses the
+credit-weighted SGPA formula. Verify grade-point mapping with
+your official KTU regulations.
+</p>
+
+</div>
+
+<script>
+
+function addSubject() {
+    const subjects = document.getElementById("subjects");
+
+    const div = document.createElement("div");
+    div.className = "subject";
+
+    div.innerHTML = `
+        <input type="text" placeholder="Subject name">
+        <input type="number" class="credit" placeholder="Credit" min="0.5" step="0.5">
+        <select class="grade">
+            <option value="">Grade</option>
+            <option value="10">S - 10</option>
+            <option value="9">A+ - 9</option>
+            <option value="8.5">A - 8.5</option>
+            <option value="8">B+ - 8</option>
+            <option value="7">B - 7</option>
+            <option value="6">C - 6</option>
+            <option value="5">P - 5</option>
+            <option value="0">F - 0</option>
+        </select>
+        <button class="remove" onclick="removeSubject(this)">X</button>
+    `;
+
+    subjects.appendChild(div);
+}
+
+function removeSubject(button) {
+    const rows = document.querySelectorAll(".subject");
+
+    if (rows.length > 1) {
+        button.parentElement.remove();
+    } else {
+        alert("At least one subject is required!");
+    }
+}
+
+function calculateSGPA() {
+
+    const credits = document.querySelectorAll(".credit");
+    const grades = document.querySelectorAll(".grade");
+
+    let totalCredits = 0;
+    let totalPoints = 0;
+
+    for (let i = 0; i < credits.length; i++) {
+
+        const credit = parseFloat(credits[i].value);
+        const grade = grades[i].value;
+
+        if (!Number.isFinite(credit) || credit <= 0 || grade === "") {
+            alert("Please enter valid credits and select grades for every subject.");
+            return;
+        }
+
+        totalCredits += credit;
+        totalPoints += credit * parseFloat(grade);
+    }
+
+    if (totalCredits === 0) {
+        alert("Please add subjects!");
+        return;
+    }
+
+    const sgpa = totalPoints / totalCredits;
+
+    document.getElementById("sgpaValue").innerText = sgpa.toFixed(2);
+
+    document.getElementById("details").innerText =
+        "Total Credits: " + totalCredits.toFixed(1);
+
+    document.getElementById("result").style.display = "block";
+}
+
+function resetCalculator() {
+
+    document.getElementById("subjects").innerHTML = "";
+
+    addSubject();
+
+    document.getElementById("result").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
