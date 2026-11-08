@@ -8,52 +8,16 @@
 
 <style>
 *{box-sizing:border-box}
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#0b1020;
-    color:white;
-}
-header{
-    background:#171f38;
-    padding:22px;
-    text-align:center;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#0b1020;color:white}
+header{background:#171f38;padding:22px;text-align:center}
 header h1{color:#8c9eff;margin:0}
-.container{
-    max-width:850px;
-    margin:35px auto;
-    padding:25px;
-}
-.card{
-    background:#171f38;
-    padding:25px;
-    border-radius:15px;
-    margin-bottom:20px;
-}
+.container{max-width:850px;margin:35px auto;padding:25px}
+.card{background:#171f38;padding:25px;border-radius:15px;margin-bottom:20px}
 label{display:block;margin-top:15px}
-select,input{
-    width:100%;
-    padding:12px;
-    margin-top:7px;
-    border-radius:8px;
-    border:none;
-}
-button{
-    margin-top:20px;
-    padding:13px 20px;
-    background:#7655e8;
-    color:white;
-    border:0;
-    border-radius:8px;
-    cursor:pointer;
-}
-.pdf{
-    background:#202b4a;
-    padding:18px;
-    border-radius:10px;
-    margin-top:15px;
-}
+select{width:100%;padding:12px;margin-top:7px;border-radius:8px;border:none}
+button{margin-top:20px;padding:13px 20px;background:#7655e8;color:white;border:0;border-radius:8px;cursor:pointer}
+.pdf{background:#202b4a;padding:18px;border-radius:10px;margin-top:15px}
+.pdf a{display:inline-block;margin:8px;color:#aebaff}
 a{color:#aebaff}
 .hidden{display:none}
 </style>
@@ -73,20 +37,20 @@ a{color:#aebaff}
 
 <label>Scheme</label>
 <select id="scheme">
-<option>2024 Scheme</option>
-<option>2019 Scheme</option>
+<option value="2024 Scheme">2024 Scheme</option>
+<option value="2019 Scheme">2019 Scheme</option>
 </select>
 
 <label>Branch</label>
 <select id="branch">
-<option>CSBS</option>
-<option>CSE</option>
-<option>AIML</option>
-<option>ECE</option>
-<option>EEE</option>
-<option>ME</option>
-<option>CE</option>
-<option>IT</option>
+<option value="CSBS">CSBS</option>
+<option value="CSE">CSE</option>
+<option value="AIML">AIML</option>
+<option value="ECE">ECE</option>
+<option value="EEE">EEE</option>
+<option value="ME">ME</option>
+<option value="CE">CE</option>
+<option value="IT">IT</option>
 </select>
 
 <label>Semester</label>
@@ -131,21 +95,60 @@ a{color:#aebaff}
 <script>
 function findMaterials(){
 
-const subject=document.getElementById("subject").value;
-const module=document.getElementById("module").value;
-const scheme=document.getElementById("scheme").value;
-const branch=document.getElementById("branch").value;
-const semester=document.getElementById("semester").value;
+const subject = document.getElementById("subject").value;
+const module = document.getElementById("module").value;
+const scheme = document.getElementById("scheme").value;
+const branch = document.getElementById("branch").value;
+const semester = document.getElementById("semester").value;
 
-let html="";
+const results = document.getElementById("results");
+const pdfList = document.getElementById("pdfList");
 
-if(subject==="Computer Networks" &&
-   scheme==="2024 Scheme" &&
-   branch==="CSBS" &&
-   semester==="S5"){
+let html = "";
 
-    if(module==="1"){
-        html=`
-        <div class="pdf">
-        <h3>Computer Networks - Module 1</h3>
-        <a href="Computer_Networks
+if(
+subject === "Computer Networks" &&
+scheme === "2024 Scheme" &&
+branch === "CSBS" &&
+semester === "S5"
+){
+
+if(module === "1"){
+
+html = `
+<div class="pdf">
+<h3>Computer Networks - Module 1</h3>
+<p>KTU CSBS S5 - 2024 Scheme</p>
+<a href="https://alameenkafsal.github.io/KTU-BUDDY/Computer_Networks_Module_1_KTU_CSBS_S5.pdf" target="_blank">📖 Open PDF</a>
+<a href="https://alameenkafsal.github.io/KTU-BUDDY/Computer_Networks_Module_1_KTU_CSBS_S5.pdf" download>⬇ Download PDF</a>
+</div>`;
+
+}else{
+
+html = `
+<div class="pdf">
+<h3>Computer Networks - Modules 2, 3 & 4</h3>
+<p>KTU CSBS S5 - 2024 Scheme</p>
+<a href="https://alameenkafsal.github.io/KTU-BUDDY/Computer_Networks_Modules_2_to_4_KTU_CSBS_S5.pdf" target="_blank">📖 Open PDF</a>
+<a href="https://alameenkafsal.github.io/KTU-BUDDY/Computer_Networks_Modules_2_to_4_KTU_CSBS_S5.pdf" download>⬇ Download PDF</a>
+</div>`;
+
+}
+
+}else{
+
+html = `
+<p>📌 No verified PDF notes available for this selection yet.</p>
+`;
+
+}
+
+pdfList.innerHTML = html;
+results.classList.remove("hidden");
+
+}
+</script>
+
+</body>
+</html>
+```
