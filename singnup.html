@@ -1,1 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTU-BUDDY | Signup</title>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #09091c, #211044, #101b3d);
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 18px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #b58aff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ccc;
+            margin-bottom: 25px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 15px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            background: #17152c;
+            color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #773bdb, #3478ed);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            overflow-wrap: anywhere;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 20px;
+            color: #ccc;
+        }
+
+        a {
+            color: #b58aff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>KTU-BUDDY 🎓</h1>
+    <p class="subtitle">Create Your Student Account</p>
+
+    <form id="signupForm">
+
+        <input type="text" id="name" placeholder="Full Name" required>
+
+        <input type="text" id="registerNumber"
+        placeholder="KTU Register Number" required>
+
+        <input type="email" id="email"
+        placeholder="Email Address" required>
+
+        <input type="password" id="password"
+        placeholder="Password (Minimum 6 characters)"
+        minlength="6" required>
+
+        <input type="text" id="college"
+        placeholder="College Name" required>
+
+        <select id="branch" required>
+            <option value="">Select Branch</option>
+            <option value="CSE">Computer Science Engineering</option>
+            <option value="AIML">Artificial Intelligence & ML</option>
+            <option value="CSBS">Computer Science and Business Systems</option>
+            <option value="ECE">Electronics and Communication</option>
+            <option value="EEE">Electrical and Electronics</option>
+            <option value="ME">Mechanical Engineering</option>
+            <option value="CE">Civil Engineering</option>
+            <option value="IT">Information Technology</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <select id="scheme" required>
+            <option value="">Select Scheme</option>
+            <option value="2019">2019 Scheme</option>
+            <option value="2024">2024 Scheme</option>
+        </select>
+
+        <select id="semester" required>
+            <option value="">Select Semester</option>
+            <option value="S1">S1</option>
+            <option value="S2">S2</option>
+            <option value="S3">S3</option>
+            <option value="S4">S4</option>
+            <option value="S5">S5</option>
+            <option value="S6">S6</option>
+            <option value="S7">S7</option>
+            <option value="S8">S8</option>
+        </select>
+
+        <button type="submit" id="signupButton">
+            Create Account
+        </button>
+
+    </form>
+
+    <p id="message"></p>
+
+    <p class="login">
+        Already have an account?
+        <a href="login.html">Login</a>
+    </p>
+
+</div>
+
+<script type="module">
+
+import {
+    auth,
+    db,
+    createUserWithEmailAndPassword,
+    doc,
+    setDoc
+} from "./firebase.js";
+
+const form = document.getElementById("signupForm");
+const message = document.getElementById("message");
+const button = document.getElementById("signupButton");
+
+form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    button.disabled = true;
+    button.textContent = "Creating Account...";
+    message.textContent = "";
+
+    const name = document.getElementById("name").value.trim();
+    const registerNumber = document.getElementById("registerNumber").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const college = document.getElementById("college").value.trim();
+    const branch = document.getElementById("branch").value;
+    const scheme = document.getElementById("scheme").value;
+    const semester = document.getElementById("semester").value;
+
+    try {
+
+        const result = await createUserWithEmailAndPassword(
+            auth, email, password
+        );
+
+        await setDoc(doc(db, "students", result.user.uid), {
+            name,
+            registerNumber,
+            email,
+            college,
+            branch,
+            scheme,
+            semester,
+            createdAt: new Date().toISOString()
+        });
+
+        message.textContent = "Account created successfully! 🎉";
+        form.reset();
+
+    } catch (error) {
+
+        console.error(error);
+        message.textContent = "Error: " + error.message;
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "Create Account";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
