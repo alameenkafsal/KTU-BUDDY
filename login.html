@@ -1,1 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTU-BUDDY | Login</title>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #09091c, #211044, #101b3d);
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 35px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 18px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #b58aff;
+            margin-bottom: 10px;
+        }
+
+        p {
+            text-align: center;
+            color: #ccc;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 18px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            background: #17152c;
+            color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #773bdb, #3478ed);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .signup {
+            margin-top: 25px;
+            margin-bottom: 0;
+        }
+
+        a {
+            color: #b58aff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>KTU-BUDDY 🎓</h1>
+    <p>Welcome Back, Student!</p>
+
+    <form id="loginForm">
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            required
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+        >
+
+        <button type="submit" id="loginButton">
+            Login
+        </button>
+
+    </form>
+
+    <p id="message"></p>
+
+    <p class="signup">
+        Don't have an account?
+        <a href="signup.html">Create Account</a>
+    </p>
+
+</div>
+
+<script type="module">
+
+import {
+    auth,
+    signInWithEmailAndPassword
+} from "./firebase.js";
+
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const button = document.getElementById("loginButton");
+
+form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    button.disabled = true;
+    button.textContent = "Logging in...";
+    message.textContent = "";
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    try {
+
+        await signInWithEmailAndPassword(auth, email, password);
+
+        message.textContent = "Login successful! 🎉";
+
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1000);
+
+    } catch (error) {
+
+        if (error.code === "auth/invalid-credential") {
+            message.textContent = "Incorrect email or password.";
+        } else {
+            message.textContent = error.message;
+        }
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "Login";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
