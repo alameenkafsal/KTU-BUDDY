@@ -1,1 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KTU Buddy | CGPA Calculator</title>
 
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #100b20;
+    color: white;
+    padding: 25px;
+}
+
+.container {
+    max-width: 750px;
+    margin: 30px auto;
+    background: #1c1433;
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px solid #7138d8;
+}
+
+h1 {
+    text-align: center;
+    color: #c5a5ff;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #bbb;
+    margin-bottom: 25px;
+}
+
+.semester {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #6943a8;
+    background: #100b20;
+    color: white;
+}
+
+button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #853cff;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px 3px;
+}
+
+button:hover {
+    background: #a46aff;
+}
+
+.remove {
+    background: #d93655;
+}
+
+.result {
+    display: none;
+    text-align: center;
+    margin-top: 25px;
+    padding: 25px;
+    background: #302052;
+    border-radius: 12px;
+}
+
+.result h2 {
+    color: #c5a5ff;
+    font-size: 32px;
+    margin-top: 10px;
+}
+
+.note {
+    color: #bbb;
+    font-size: 13px;
+    margin-top: 20px;
+    line-height: 1.6;
+}
+
+.back {
+    display: inline-block;
+    color: #c5a5ff;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+@media(max-width:600px) {
+    .semester {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="dashboard.html" class="back">← Back to Dashboard</a>
+
+<h1>🎓 CGPA Calculator</h1>
+<p class="subtitle">KTU Buddy - Calculate Your Overall CGPA</p>
+
+<div id="semesters">
+
+<div class="semester">
+<input type="text" placeholder="Semester (S1)">
+<input type="number" class="sgpa" placeholder="SGPA" min="0" max="10" step="0.01">
+<input type="number" class="credit" placeholder="Total Credits" min="0.5" step="0.5">
+<button class="remove" onclick="removeSemester(this)">X</button>
+</div>
+
+</div>
+
+<button onclick="addSemester()">+ Add Semester</button>
+<button onclick="calculateCGPA()">Calculate CGPA</button>
+<button onclick="resetCalculator()">Reset</button>
+
+<div class="result" id="result">
+<p>Your Overall CGPA</p>
+<h2 id="cgpaValue">0.00</h2>
+<p id="details"></p>
+</div>
+
+<p class="note">
+Enter each semester's SGPA and total credits. The calculator
+uses a credit-weighted average. Enter official values from
+your KTU results and verify the calculation method with
+your applicable KTU scheme.
+</p>
+
+</div>
+
+<script>
+
+function addSemester() {
+
+    const semesters = document.getElementById("semesters");
+
+    const div = document.createElement("div");
+    div.className = "semester";
+
+    div.innerHTML = `
+        <input type="text" placeholder="Semester">
+        <input type="number" class="sgpa" placeholder="SGPA"
+               min="0" max="10" step="0.01">
+        <input type="number" class="credit" placeholder="Total Credits"
+               min="0.5" step="0.5">
+        <button class="remove" onclick="removeSemester(this)">X</button>
+    `;
+
+    semesters.appendChild(div);
+}
+
+function removeSemester(button) {
+
+    const rows = document.querySelectorAll(".semester");
+
+    if (rows.length > 1) {
+        button.parentElement.remove();
+    } else {
+        alert("At least one semester is required!");
+    }
+}
+
+function calculateCGPA() {
+
+    const sgpas = document.querySelectorAll(".sgpa");
+    const credits = document.querySelectorAll(".credit");
+
+    let totalCredits = 0;
+    let totalPoints = 0;
+
+    for (let i = 0; i < sgpas.length; i++) {
+
+        const sgpa = parseFloat(sgpas[i].value);
+        const credit = parseFloat(credits[i].value);
+
+        if (
+            !Number.isFinite(sgpa) ||
+            !Number.isFinite(credit) ||
+            sgpa < 0 || sgpa > 10 ||
+            credit <= 0
+        ) {
+            alert("Please enter valid SGPA (0–10) and credits for every semester.");
+            return;
+        }
+
+        totalPoints += sgpa * credit;
+        totalCredits += credit;
+    }
+
+    const cgpa = totalPoints / totalCredits;
+
+    document.getElementById("cgpaValue").innerText =
+        cgpa.toFixed(2);
+
+    document.getElementById("details").innerText =
+        "Total Credits: " + totalCredits.toFixed(1);
+
+    document.getElementById("result").style.display = "block";
+}
+
+function resetCalculator() {
+
+    document.getElementById("semesters").innerHTML = "";
+
+    addSemester();
+
+    document.getElementById("result").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
