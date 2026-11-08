@@ -77,6 +77,9 @@
         }
 
         .card {
+            display: block;
+            text-decoration: none;
+            color: white;
             background: #17152c;
             padding: 25px;
             border-radius: 14px;
@@ -87,6 +90,7 @@
         .card:hover {
             transform: translateY(-5px);
             border-color: #9b65ff;
+            background: #211b40;
         }
 
         .card h3 {
@@ -96,11 +100,25 @@
 
         .card p {
             color: #ccc;
+            line-height: 1.5;
+        }
+
+        .card span {
+            display: inline-block;
+            margin-top: 15px;
+            color: #60a5fa;
+            font-size: 14px;
         }
 
         #message {
             text-align: center;
             padding: 30px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #aaa;
         }
     </style>
 </head>
@@ -120,7 +138,7 @@
     </section>
 
     <section class="profile">
-        <h2>Student Profile</h2>
+        <h2>Student Profile 👨‍🎓</h2>
 
         <p><b>Register Number:</b> <span id="regNo">Loading...</span></p>
         <p><b>Email:</b> <span id="email">Loading...</span></p>
@@ -134,41 +152,51 @@
 
     <section class="grid">
 
-        <div class="card">
+        <a href="study.html" class="card">
             <h3>📖 Study Materials</h3>
             <p>Access semester-wise study materials.</p>
-        </div>
+            <span>Open Materials →</span>
+        </a>
 
-        <div class="card">
+        <a href="papers.html" class="card">
             <h3>📝 Question Papers</h3>
             <p>Previous year KTU question papers.</p>
-        </div>
+            <span>View Papers →</span>
+        </a>
 
-        <div class="card">
+        <a href="important.html" class="card">
             <h3>⭐ Important Questions</h3>
             <p>Prepare important exam questions.</p>
-        </div>
+            <span>Explore Questions →</span>
+        </a>
 
-        <div class="card">
+        <a href="timetable.html" class="card">
             <h3>📅 Exam Timetable</h3>
-            <p>Check your examination schedule.</p>
-        </div>
+            <p>Check examination timetable and status.</p>
+            <span>Check Timetable →</span>
+        </a>
 
-        <div class="card">
+        <a href="sgpa.html" class="card">
             <h3>📊 SGPA Calculator</h3>
             <p>Calculate your semester GPA.</p>
-        </div>
+            <span>Calculate SGPA →</span>
+        </a>
 
-        <div class="card">
+        <a href="cgpa.html" class="card">
             <h3>📈 CGPA Calculator</h3>
             <p>Calculate your cumulative GPA.</p>
-        </div>
+            <span>Calculate CGPA →</span>
+        </a>
 
     </section>
 
     <p id="message"></p>
 
 </main>
+
+<footer>
+    <p>© 2026 KTU-BUDDY | Your KTU Learning Partner 🎓</p>
+</footer>
 
 <script type="module">
 
@@ -202,13 +230,13 @@ onAuthStateChanged(auth, async (user) => {
 
             const data = profileSnap.data();
 
-            document.getElementById("studentName").textContent = data.name;
-            document.getElementById("regNo").textContent = data.registerNumber;
-            document.getElementById("email").textContent = data.email;
-            document.getElementById("college").textContent = data.college;
-            document.getElementById("branch").textContent = data.branch;
-            document.getElementById("scheme").textContent = data.scheme;
-            document.getElementById("semester").textContent = data.semester;
+            document.getElementById("studentName").textContent = data.name || "Student";
+            document.getElementById("regNo").textContent = data.registerNumber || "-";
+            document.getElementById("email").textContent = data.email || user.email;
+            document.getElementById("college").textContent = data.college || "-";
+            document.getElementById("branch").textContent = data.branch || "-";
+            document.getElementById("scheme").textContent = data.scheme || "-";
+            document.getElementById("semester").textContent = data.semester || "-";
 
         } else {
             message.textContent = "Student profile not found.";
@@ -223,8 +251,13 @@ onAuthStateChanged(auth, async (user) => {
 
 document.getElementById("logoutButton").addEventListener("click", async () => {
 
-    await signOut(auth);
-    window.location.href = "login.html";
+    try {
+        await signOut(auth);
+        window.location.href = "login.html";
+    } catch (error) {
+        console.error(error);
+        message.textContent = "Logout failed. Please try again.";
+    }
 
 });
 
